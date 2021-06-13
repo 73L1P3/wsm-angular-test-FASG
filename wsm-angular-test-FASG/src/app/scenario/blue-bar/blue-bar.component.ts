@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { CampaignService } from 'src/app/services/campaign.service';
+import { campaignGroup } from 'src/app/interfaces/campaignGroup';
+import { campaignDetails } from 'src/app/interfaces/campaignDetails';
+
 @Component({
   selector: 'app-blue-bar',
   templateUrl: './blue-bar.component.html',
@@ -7,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlueBarComponent implements OnInit {
 
-  constructor() { }
+  campaignGroup: campaignGroup[] = [];
+  campaignDetails: campaignDetails[] = [];
+
+  currentCampaign: campaignDetails[] = [];
+
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit(): void {
+    this.campaignService.getCG().subscribe(
+      group => {
+        this.campaignGroup = group;
+      }
+    )
+
+    this.campaignService.getCampaigns().subscribe(
+      campaign => {
+        this.currentCampaign = campaign;
+        console.log(this.currentCampaign[1])
+      }
+    )
   }
 
 }
