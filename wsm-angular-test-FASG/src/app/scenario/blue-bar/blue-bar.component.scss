@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   background-color: #0971b9;
+  align-items: center;
 }
 
 .flex-container > div {
@@ -20,4 +21,14 @@
 .campaignGroupName {
   color: #ffffff;
   size: 16px;
+}
+
+.flex-item-4 {
+  justify-content: center;
+}
+
+.btn-continue {
+  padding: 1rem 1rem;
+  color: #ffffff;
+  background-color: darkgrey;
 }
