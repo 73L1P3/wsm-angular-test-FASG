@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <mat-drawer-container>
+        <mat-drawer mode="side" opened>
+            <div class="wrap-title">
+                <h5 class="text-left text-muted">Scenario Selected</h5>
+                <h3 class="text-blue">High CPA</h3>
+            </div>
+            <div *ngIf="List">
+                <mat-selection-list [multiple]="false">
+                    <mat-list-option *ngFor="let item of List;" class="menu-list">
+                        <a (click)="showContent(item)">{{item.name}}</a>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content>            
+            <div *ngIf="apiContent">
+                <div *ngIf="optimization">
+                    <h3 class="text-blue">Instructions</h3>
+                    <mat-divider></mat-divider>
+                </div>
+                <div *ngFor="let content of apiContent;">
+                    <div [innerHTML]=content.description></div>
+                </div>
+            </div>
+
+            <div *ngIf="apiActions">
+                <div *ngIf="optimization">
+                    <h3 class="text-blue">Optimizations</h3>
+                    <mat-divider></mat-divider>
+                </div>
+                <mat-accordion>
+                    <div *ngFor="let a of apiActions;">
+                        <section class="optimization-checkbox">
+                            <mat-expansion-panel (opened)="panelOpenState = true"
+                                    (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-checkbox><strong>{{a.name}}</strong></mat-checkbox>   
+                                </mat-panel-title>                                
+                            </mat-expansion-panel-header>
+                                <div *ngFor="let b of a.actionVariants">
+                                    <p [innerHTML]=b.description></p>
+                                </div>
+                            </mat-expansion-panel>
+                        </section>
+                    </div>          
+                </mat-accordion>
+            </div> 
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>
