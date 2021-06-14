@@ -36,7 +36,7 @@
                                     (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox><strong>{{a.name}}</strong></mat-checkbox>   
+                                    <mat-checkbox [formControl]="checkBox" [(ngModel)]="a.checked" (change)="checkClick()"><strong>{{a.name}}</strong></mat-checkbox>   
                                 </mat-panel-title>                                
                             </mat-expansion-panel-header>
                                 <div *ngFor="let b of a.actionVariants">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WSMService } from 'src/app/services/wsm.service';
 
 import { apiList } from 'src/app/interfaces/apiList';
@@ -7,13 +7,11 @@ import { apiListActions } from 'src/app/interfaces/apiListContentActions';
 import { apiListContentActionsVariants } from 'src/app/interfaces/apiListContentActionVariants';
 
 import {ThemePalette} from '@angular/material/core';
+import { FormControl } from '@angular/forms';
 
-export interface Task {
-  name: string;
-  completed: boolean;
-  color: ThemePalette;
-  subtasks?: Task[];
-}
+
+export let checkBox = new FormControl(false);
+
 
 @Component({
   selector: 'app-list',
@@ -33,8 +31,13 @@ export class ListComponent implements OnInit {
   panelOpenState = false;
   MatTabBodyPositionState = 'left';
 
+  @Output() newItemEvent = new EventEmitter<boolean>();
+
+  checkBox = new FormControl(false);
+
   constructor(private wsmService: WSMService) { }
 
+  
   ngOnInit(): void {  
     this.wsmService.getItems().subscribe(
       data => {
@@ -61,36 +64,19 @@ export class ListComponent implements OnInit {
     }
   }
 
+  checkClick(): void{
+    let y = 0;
 
-  task: Task = {
-    name: 'Indeterminate',
-    completed: false,
-    color: 'primary',
-    subtasks: [
-      {name: 'Primary', completed: false, color: 'primary'},
-      {name: 'Accent', completed: false, color: 'accent'},
-      {name: 'Warn', completed: false, color: 'warn'}
-    ]
-  };
+    this.apiActions.forEach(x => {
+      if (x.checked) {
+        y++;
+      }
+    });
 
-  allComplete: boolean = false;
-
-  updateAllComplete() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
-  }
-
-  someComplete(): boolean {
-    if (this.task.subtasks == null) {
-      return false;
+    if (y >= 1) {
+      this.newItemEvent.emit(true);
+    } else {
+      this.newItemEvent.emit(false);
     }
-    return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
-  }
-
-  setAll(completed: boolean) {
-    this.allComplete = completed;
-    if (this.task.subtasks == null) {
-      return;
-    }
-    this.task.subtasks.forEach(t => t.completed = completed);
   }
 }

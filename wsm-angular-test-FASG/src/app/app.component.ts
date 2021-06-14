@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'wsm-angular-test-FASG';
+
+  checkReceived: boolean = false;
+
+  stateReceive($event: any): void {
+    this.checkReceived = $event;
+  }
 }
+
+
